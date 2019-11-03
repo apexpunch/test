@@ -6,6 +6,9 @@ import ru.itvitality.sbrf.cu.rj.atm.atm.ATM;
 import ru.itvitality.sbrf.cu.rj.atm.cell.Cell;
 import ru.itvitality.sbrf.cu.rj.atm.cell.impl.CellImpl;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 public class ATMImpl implements ATMService, ATM {
@@ -83,4 +86,22 @@ public class ATMImpl implements ATMService, ATM {
         }
         return balance;
     }
+
+    @Override
+    public void saveToFile(String fileName) throws IOException {
+        File file = new File(fileName);
+        if (file.exists()) {
+            file.delete();
+        }
+        FileWriter writer = new FileWriter(file);
+        for (Cell item : atmStorage.values()){
+            String str = item.getNominal().getNominal() + ":" + item.getCount() + "\n";
+            writer.write(str);
+
+        }
+
+        writer.close();
+
+    }
+
 }
